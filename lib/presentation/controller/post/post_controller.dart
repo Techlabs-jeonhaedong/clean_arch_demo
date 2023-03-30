@@ -19,6 +19,7 @@ class PostController extends GetxController {
   final ClearAllPost _clearAllPost = ClearAllPost();
 
   RxList<PostModel> postList = ([].cast<PostModel>()).obs;
+
   @override
   void onInit() async {
     postList.value = (await fetchAllPosts() ?? []);
@@ -33,7 +34,6 @@ class PostController extends GetxController {
       postList.value = (await fetchAllPosts() ?? []);
     }
     _sortPosts();
-
     Get.back();
   }
 
