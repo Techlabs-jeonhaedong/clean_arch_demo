@@ -14,6 +14,7 @@ class PostModel extends Equatable {
       id: json["id"],
     );
   }
+
   Map<String, dynamic> toJson() {
     return {
       "title": title,

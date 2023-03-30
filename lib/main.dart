@@ -45,45 +45,50 @@ class _MyHomePageState extends State<MyHomePage> {
         body: Center(
           child: SizedBox(
             height: MediaQuery.of(context).size.height,
-            child: ListView.builder(
-              itemCount: controller.postList.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      borderRadius: const BorderRadius.all(Radius.circular(10)),
-                      border: Border.all(color: Colors.grey),
+            child: RefreshIndicator(
+              onRefresh: controller.refreshPostList,
+              child: ListView.builder(
+                physics: const AlwaysScrollableScrollPhysics(),
+                itemCount: controller.postList.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        border: Border.all(color: Colors.grey),
+                      ),
+                      width: double.maxFinite,
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              TextButton(
+                                onPressed: () => controller
+                                    .deletePost(controller.postList[index].id),
+                                child: const Text("삭제"),
+                              ),
+                              const Spacer(),
+                              TextButton(
+                                onPressed: () => controller.goToWriteScreen(
+                                    id: controller.postList[index].id),
+                                child: const Text("수정"),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 30),
+                          Text(controller.postList[index].title),
+                          const SizedBox(height: 10),
+                          Text(controller.postList[index].content),
+                        ],
+                      ),
                     ),
-                    width: double.maxFinite,
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            TextButton(
-                              onPressed: () => controller
-                                  .deletePost(controller.postList[index].id),
-                              child: const Text("삭제"),
-                            ),
-                            const Spacer(),
-                            TextButton(
-                              onPressed: () => controller.goToWriteScreen(
-                                  id: controller.postList[index].id),
-                              child: const Text("수정"),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 30),
-                        Text(controller.postList[index].title),
-                        const SizedBox(height: 10),
-                        Text(controller.postList[index].content),
-                      ],
-                    ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           ),
         ),

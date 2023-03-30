@@ -28,6 +28,11 @@ class PostController extends GetxController {
     super.onInit();
   }
 
+  Future<void> refreshPostList() async {
+    postList.value = (await fetchAllPosts() ?? []);
+    _sortPosts();
+  }
+
   Future<void> savePost(String title, String content) async {
     bool result = await _savePost(title, content, getNewId());
     if (result) {
